@@ -27,9 +27,9 @@ object GithubAvatar extends JSApp {
     <div>
     {
       for (tag <- tags) yield
-      <span >
-        <span onclick={ event: Event => githubUserName := tag }>{tag}</span>
-        <button onclick={ event: Event => tags.get -= tag}> X </button>
+        <span >
+      <span onclick={ event: Event => githubUserName := tag }>{tag}</span>
+      <button onclick={ event: Event => tags.get -= tag}> X </button>
       </span>
     }
     { input }
@@ -41,31 +41,30 @@ object GithubAvatar extends JSApp {
     val githubUserName = Var("")
     val tags = Vars("ruby", "python")
     <div>
-        {tagPicker(tags, githubUserName).bind}
-        <hr/>
-        {
-        val name = githubUserName.bind
-        if(name == "") {
-            <div> Please input your github user name </div>
-        }else{
-            val githubResult = FutureBinding(Ajax.get(s"https://api.github.com/users/${name}"))
-            githubResult.bind match {
-            case None =>
-                <div>loading the avatar from {name } </div>
-            case Some(Success(resp)) =>
-                val json  = JSON.parse(resp.responseText)
-                <img src={json.avatar_url.toString} />
-            case Some(Failure(exception)) =>
-                <div> { exception.toString} </div>
-            }
+    {tagPicker(tags, githubUserName).bind}
+    <hr/>
+    {
+      val name = githubUserName.bind
+      if(name == "") {
+        <div> Please input your github user name </div>
+      }else{
+        val githubResult = FutureBinding(Ajax.get(s"https://api.github.com/users/${name}"))
+        githubResult.bind match {
+          case None =>
+            <div>loading the avatar from {name } </div>
+          case Some(Success(resp)) =>
+            val json  = JSON.parse(resp.responseText)
+            <img src={json.avatar_url.toString} />
+          case Some(Failure(exception)) =>
+            <div> { exception.toString} </div>
         }
-        }
+      }
+    }
     </div>
   }
 
   def main(): Unit = {
     println("Hello world!")
     dom.render(document.body, render)
-    // dom.render(document.body)
   }
 }

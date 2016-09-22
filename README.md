@@ -1,15 +1,27 @@
 ### binding.scala demo
 
-#### startup
+#### follow tutorial setup scala.js environment
 
-1. http://www.scala-js.org/tutorial/basic/
+[scala-js.org/tutorial/basic/](http://www.scala-js.org/tutorial/basic/)
 
-2. > sbt run
+#### develop @emacs
 
-3. > sbt gen-ensime
+> sbt gen-ensime
 
-4. > sbt fastOptJS
+> M-x ensime
 
-5. > sbt fullOptJS
+![showcase](./emacs-editing-scala.jpeg)
 
-6. > php -S 0.0.0.0:8081
+#### run
+
+> sbt
+
+    run
+    fastOptJS
+    fullOptJS
+
+> php -S 0.0.0.0:8080
+
+OR
+
+> python -m SimpleHTTPServer
